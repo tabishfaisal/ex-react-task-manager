@@ -20,6 +20,7 @@ const TaskList = () => {
           {tasks.map((task) => (
             <TaskRow 
               key={task.id}
+              id={task.id}
               title={task.title}
               createdAt={task.createdAt} 
               status={task.status} 

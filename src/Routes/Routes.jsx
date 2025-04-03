@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "../Components/Layout";
 import TaskList from "../Pages/TaskList";
 import AddTask from "../Pages/AddTask";
+import TaskDetail from "../Pages/TaskDetail";
 
  export const router = createBrowserRouter([
     {
@@ -15,6 +16,10 @@ import AddTask from "../Pages/AddTask";
             {
                 path: '/form',
                 element: <AddTask />
+            },
+            {
+                path: '/task/:id',
+                element: <TaskDetail />
             }
         ]
     }

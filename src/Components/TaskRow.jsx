@@ -1,11 +1,15 @@
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
 
-const TaskRow = memo(({ title, createdAt, status }) => {
+const TaskRow = memo(({ id, title, createdAt, status }) => {
+
   return (
     <tr>
-      <td>{title}</td>
+      <td>
+        <Link className='linktoDetail' to={`/task/${id}`}>{title}</Link>
+      </td>
       <td>{new Date(createdAt).toLocaleDateString()}</td>
-      <td style={{ color: status === 'Doing' ? 'orange' : status === 'Done' ? 'green' : 'red' }}>
+      <td style={{ background: status === 'Doing' ? 'yellow' : status === 'Done' ? 'green' : 'red' }}>
         {status}
       </td>
     </tr>

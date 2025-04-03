@@ -24,6 +24,7 @@ const AddTask = () => {
   const handleForm = async (e) => {
     e.preventDefault();
     const newTask = {
+      id: Date.now(),
       title: taskName,
       description: descriptionRef.current.value,
       status: statusRef.current.value,
