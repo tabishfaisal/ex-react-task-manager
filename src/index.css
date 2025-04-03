@@ -19,9 +19,9 @@ h1{
 
 /* TaskList styles */
 table{
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: 20px auto;
 }
 
 th,td {

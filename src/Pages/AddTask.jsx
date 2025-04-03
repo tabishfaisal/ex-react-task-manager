@@ -1,31 +1,46 @@
 import { useState, useRef, useMemo } from "react";
+import useTasks from "../Hooks/useTasks";
 
 const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
 
 const AddTask = () => {
+  const { addTask } = useTasks();
   const [taskName, setTaskName] = useState('');
   const descriptionRef = useRef();
   const statusRef = useRef();
 
 
-  const isNameInvalid = useMemo(()=>{
-    if(!taskName.trim()){
-      return 'Name cannot be empty and must be Filled'
+  const isNameInvalid = useMemo(() => {
+    if (!taskName.trim()) {
+      return 'Name must be filled'
     }
-    if([...taskName].some(char => symbols.includes(char))){
-      return 'Name cannot contain symbol'
+    if ([...taskName].some(char => symbols.includes(char))) {
+      return 'Name cannot contain symbols'
     }
     return '';
-  },[taskName])
-  const handleForm = (e)=>{
+  }, [taskName])
+
+
+  const handleForm = async (e) => {
     e.preventDefault();
     const newTask = {
       title: taskName,
       description: descriptionRef.current.value,
       status: statusRef.current.value,
     }
-    console.log(newTask);
-    
+
+    try {
+      await addTask(newTask);
+      alert('Task added');
+      setTaskName('');
+      descriptionRef.current.value = '',
+        statusRef.current.value = '';
+    } catch (error) {
+      alert(error.message)
+    }
+
+    //console.log(newTask);
+
   }
 
 
@@ -33,19 +48,19 @@ const AddTask = () => {
     <div className="container">
       <form onSubmit={handleForm}>
         <label htmlFor="name">Task Name</label>
-        <input 
-          type="text" 
-          placeholder="Insert Task Name" 
-          value={taskName} 
+        <input
+          type="text"
+          placeholder="Insert Task Name"
+          value={taskName}
           onChange={(e) => setTaskName(e.target.value)}
         />
-        {isNameInvalid && <p style={{ color: 'red',fontSize: 'small',marginTop: '0' }}>{isNameInvalid}</p>}
+        {isNameInvalid && <p style={{ color: 'red', fontSize: 'small', marginTop: '0' }}>{isNameInvalid}</p>}
 
         <label htmlFor="description">Description</label>
-        <textarea 
-          name="description" 
+        <textarea
+          name="description"
           placeholder="Insert Task Description"
-          ref={descriptionRef} 
+          ref={descriptionRef}
         ></textarea>
 
         <label htmlFor="status">Status</label>
