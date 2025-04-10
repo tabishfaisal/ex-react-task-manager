@@ -13,7 +13,7 @@ const Modal = ({
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>{title}</h2>
-        <p>{content}</p>
+        <div>{content}</div>
         <div className="modal-buttons">
           <button onClick={onClose}>Close</button>
           <button onClick={onConfirm}>Confirm</button>

@@ -126,4 +126,14 @@ button{
   cursor: pointer;
   background-color: #444;
 }
-
+.task-container{
+  text-align: center;
+  background-color: #ddd;
+  width: 300px;
+  margin: 30px auto;
+  padding: 10px;
+}
+.btn{
+  margin: 3px;
+  padding: 5px, 3px;
+}

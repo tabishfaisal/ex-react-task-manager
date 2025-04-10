@@ -26,7 +26,7 @@ const useTasks = () => {
           setTasks((prevTasks) => [...prevTasks, task]); 
         })
         .catch((error) => {
-          console.error("Errore:", error.message);
+          console.error(error.message);
         });
     };
 
@@ -39,12 +39,22 @@ const useTasks = () => {
           }
         })
         .catch((error) => {
-          console.error("Error deleting task:", error.message);
+          console.error(error.message);
         });
     };
     
 
-   const updateTask = () => {};
+   const updateTask = async (updatedTask) => {
+    await axios.put(`${VITE_API_URL}/tasks/${updatedTask.id}`, updatedTask)
+    .then(({ data }) => {
+      const { success, task,message } = data;
+      if(!success) throw new Error(message);
+      setTasks((t)=>task.id === t.id ? task : t)
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
+   };
 
   return {tasks, addTask,removeTask,updateTask}
 }
