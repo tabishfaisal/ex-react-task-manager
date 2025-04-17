@@ -16,6 +16,10 @@ nav {
 h1{
   text-align: center;
 }
+.container{
+  padding: 30px;
+  text-align: center;
+}
 
 /* TaskList styles */
 table{

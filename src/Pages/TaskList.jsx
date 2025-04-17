@@ -1,11 +1,26 @@
 import React, { useContext, useMemo, useState } from 'react'
 import { GlobalContext } from '../Context/GlobalContext'
 import TaskRow from '../Components/TaskRow'
+import { useCallback } from 'react';
+
+
+const debounce = (callback,delay)=>{
+  let timer;
+  return (value)=>{
+    clearTimeout(timer);
+    timer = setTimeout(()=>{
+      callback(value)
+    },delay)
+  }
+ }
 
 const TaskList = () => {
   const { tasks } = useContext(GlobalContext);
   const [sortBy,setSortBy] = useState('createdAt');
   const [sortOrder,setSortOrder] = useState(1);
+  const [search,setSearch] = useState('');
+  const debounceSearch = useCallback(debounce(setSearch,500),[]);
+
 
   const sortingSymbol = sortOrder === 1 ? '↑' : '↓';
 
@@ -18,8 +33,10 @@ const TaskList = () => {
   }
  }
 
- const sortedTask = useMemo(()=>{
-  return tasks.sort((a,b)=>{
+ const filteredSortedTask = useMemo(()=>{
+  return [...tasks]
+  .filter(task=>task.title.toLowerCase().includes(search.toLowerCase()))
+  .sort((a,b)=>{
     let comparison;
     if(sortBy === 'title'){
       comparison = a.title.localeCompare(b.title);
@@ -28,17 +45,23 @@ const TaskList = () => {
       const dateB = new Date(b.createdAt).getTime();
       comparison = dateA-dateB;
     } else if(sortBy === 'status'){
-      const options = ['to do','doing','done'];
+      const options = ['To do','Doing','Done'];
       const indexA = options.indexOf(a.status);
       const indexB = options.indexOf(b.status);
       comparison =  indexA - indexB;
     }
     return comparison * sortOrder;
   })
- },[tasks,sortBy,sortOrder])
+ },[tasks,sortBy,sortOrder,search])
+
+
+
+
 
   return (
-    <div className='container'>
+    <div className='container'> 
+        <label htmlFor="search">🔍</label>
+        <input type="text" placeholder='Cerca un task..' onChange={(e)=>debounceSearch(e.target.value)} />
       <h1>La Lista dei Tasks</h1>
       <table>
         <thead>
@@ -55,7 +78,7 @@ const TaskList = () => {
           </tr>
         </thead>
         <tbody>
-          {sortedTask.map((task) => (
+          {filteredSortedTask.map((task) => (
             <TaskRow 
               key={task.id}
               id={task.id}
