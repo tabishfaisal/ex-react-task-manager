@@ -13,7 +13,7 @@ const useTasks = () => {
                 setTasks(result);
             })
             .catch(error => console.log(error));
-    }, []);
+    }, [tasks]);
 
     const addTask = (newTask) => {
       axios

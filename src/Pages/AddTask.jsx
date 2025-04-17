@@ -48,7 +48,7 @@ const AddTask = () => {
   return (
     <div className="container">
       <form onSubmit={handleForm}>
-        <label htmlFor="name">Task Name</label>
+        <label htmlFor="name">Task Title</label>
         <input
           type="text"
           placeholder="Insert Task Name"
